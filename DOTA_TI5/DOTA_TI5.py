@@ -81,6 +81,7 @@ with open('C:/Users/DafashiTuzi/Desktop/vp_output2.csv', 'w', newline='') as f:
         writer.writerow(row)
 
 
+#function to analyze 3 hero combos
 def analyze3():
 	#analyze start
 	n = 0 #hero counter
