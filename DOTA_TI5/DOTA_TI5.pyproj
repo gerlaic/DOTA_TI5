@@ -29,6 +29,9 @@
     <Compile Include="hero_combo_analyzer.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="variable_chart.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

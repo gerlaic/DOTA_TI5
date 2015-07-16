@@ -1,18 +1,35 @@
 print("###Processing General Handler...###")
 
+import variable_chart
+
 #parameter setting
 team_name ='eg'
 folder_name = 'C:/Users/DafashiTuzi/Desktop/TI5/'
 
 input_generalBP_string = folder_name+team_name+'/'+team_name+'_data.csv'
-ouput_file_string = folder_name + team_name +'/'+team_name+'_output.csv'
+ouput_file_string = folder_name + team_name +'/'+team_name+'_output'
+
+#global variable
+general_bp_data = []
+used_hero = []
+oppo_used_hero = []
+hero_data = {}
+oppo_hero_data = {}
+
+#functions
+#func export csv
+def exportFunc(detail, data_source):
+    with open((ouput_file_string+detail+'.csv'), 'w', newline='') as f:
+        writer = csv.writer(f)
+        for row in data_source:
+            writer.writerow(row)
 
 #read csv
 print("Reading in CSV...")
 import csv 
 
 data_reader = None
-general_bp_data = []
+
 with open(input_generalBP_string, newline='') as csvFile:
 	data_reader = csv.reader(csvFile,delimiter=' ', quotechar='|')
 
@@ -43,21 +60,131 @@ with open(input_generalBP_string, newline='') as csvFile:
 		#À¢—¿ ±º‰£°
 
 		for i in range(4,24):
+			
 			if i in host_ban_index:
 				bp_dict['self_b'].append(items[i])
+				if (items[i] not in used_hero):
+					used_hero.append(items[i])
 			elif i in host_pick_index:
 				bp_dict['self_p'].append(items[i])
+				if (items[i] not in used_hero):
+					used_hero.append(items[i])
 			elif i in guest_ban_index:
 				bp_dict['oppo_b'].append(items[i])
+				if (items[i] not in oppo_used_hero):
+					oppo_used_hero.append(items[i])
 			else:
 				bp_dict['oppo_p'].append(items[i])
+				if (items[i] not in oppo_used_hero):
+					oppo_used_hero.append(items[i])
 
 		general_bp_data.append(bp_dict)
 
 
-
-#for row in host_bp_data:
+#for row in general_bp_data:
 #    print(row)
 
+#init hero_data
+for row in used_hero:
+	#init hero dictionary
+	hero_dict = {}
+	hero_dict['matches'] = []
+	hero_data[row] = hero_dict
+
+#init oppo_hero_data
+for row in oppo_used_hero:
+	hero_dict = {}
+	hero_dict['matches'] = []
+	oppo_hero_data[row] = hero_dict
+	
+#generate hero_data
+for hero in used_hero:
+	for row in general_bp_data:
+		#init match for hero_data
+		hero_data_match = {'status':'', 'index':0, 'result':'', 'oppo':0}
+
+		if (hero in row['self_b']) or (hero in row['self_p']):
+			if hero in row['self_b']:
+				hero_data_match['status'] = 'ban'
+				hero_data_match['index'] = row['self_b'].index(hero)
+			elif hero in row['self_p']:
+				hero_data_match['status'] = 'pick'
+				hero_data_match['index'] = row['self_p'].index(hero)
+
+			hero_data_match['result'] = row['result']
+
+			if row['oppo'] in variable_chart.ti_team:
+				hero_data_match['oppo'] = 'T1'
+			else:
+				hero_data_match['oppo'] = 'T2'
+
+			hero_data[hero]['matches'].append(hero_data_match)
+
+#generate oppo_hero_data
+for hero in oppo_used_hero:
+	for row in general_bp_data:
+		#init match for hero_data
+		hero_data_match = {'status':'', 'index':0, 'result':'', 'oppo':0}
+
+		if (hero in row['oppo_b']) or (hero in row['oppo_p']):
+			if hero in row['oppo_b']:
+				hero_data_match['status'] = 'ban'
+				hero_data_match['index'] = row['oppo_b'].index(hero)
+			elif hero in row['oppo_p']:
+				hero_data_match['status'] = 'pick'
+				hero_data_match['index'] = row['oppo_p'].index(hero)
+
+			hero_data_match['result'] = row['result']
+
+			if row['oppo'] in variable_chart.ti_team:
+				hero_data_match['oppo'] = 'T1'
+			else:
+				hero_data_match['oppo'] = 'T2'
+
+			oppo_hero_data[hero]['matches'].append(hero_data_match)
+
+#generating self_total and oppo_total
+self_total = []
+for hero in hero_data:
+    hero_name = hero
+    hero_matches = hero_data[hero]['matches']
+
+    total = len(hero_matches)
+    b_count = 0
+    p_count = 0
+
+    for match in hero_matches:
+        if match['status'] == 'ban':
+            b_count = b_count + 1
+        else:
+            p_count = p_count + 1
+
+    item = [hero_name,total,b_count,p_count]
+    self_total.append(item)
+
+oppo_total = []
+for hero in oppo_hero_data:
+    hero_name = hero
+    hero_matches = oppo_hero_data[hero]['matches']
+
+    total = len(hero_matches)
+    b_count = 0
+    p_count = 0
+
+    for match in hero_matches:
+        if match['status'] == 'ban':
+            b_count = b_count + 1
+        else:
+            p_count = p_count + 1
+
+    item = [hero_name,total,b_count,p_count]
+    oppo_total.append(item)
+
+
+#export self_total & oppo_total
+exportFunc('_self_total', self_total)
+exportFunc('_oppo_total', oppo_total)
+
+#export 
 
 print("###End of General Handler###")
