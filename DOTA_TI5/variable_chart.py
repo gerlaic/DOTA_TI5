@@ -1,3 +1,8 @@
+#INPUT PARAMETERS
+team_name ='eg'
+folder_name = 'C:/Users/DafashiTuzi/Desktop/TI5/'
+
+#VARIABLES THAT WE DONT REALLY WANT TO CHANGE EVERYTIME
 #team
 ti_team = ['VG','EG','SECRET','IG','LGD','C9','EMPIRE','VP','COL','NEWBEE','FNATIC','EHOME','NAVI','MVPH']
 

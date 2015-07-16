@@ -1,10 +1,16 @@
 print("###Processing Hero Combo Analyzer...###")
 
+import variable_chart
+
 #parameter setting
-input_bpfile_string = 'C:/Users/DafashiTuzi/Desktop/vp data.csv'
+
+team_name =variable_chart.team_name
+folder_name = variable_chart.folder_name
+
+input_bpfile_string = folder_name+team_name+'/'+team_name+'_combo_data.csv'
 input_herofile_string = 'C:/Users/DafashiTuzi/Desktop/vp hero.csv'
-output2_file_string = 'C:/Users/DafashiTuzi/Desktop/vp_output2.csv'
-output3_file_string = 'C:/Users/DafashiTuzi/Desktop/vp_output3.csv'
+output2_file_string = folder_name+team_name+'/'+team_name+'_combo_output_2.cvs'
+output3_file_string = folder_name+team_name+'/'+team_name+'_combo_output_3.cvs'
 
 print("Reading in CSV...")
 #read in BP data

@@ -3,8 +3,8 @@ print("###Processing General Handler...###")
 import variable_chart
 
 #parameter setting
-team_name ='eg'
-folder_name = 'C:/Users/DafashiTuzi/Desktop/TI5/'
+team_name =variable_chart.team_name
+folder_name = variable_chart.folder_name
 
 input_generalBP_string = folder_name+team_name+'/'+team_name+'_data.csv'
 ouput_file_string = folder_name + team_name +'/'+team_name+'_output'
@@ -152,14 +152,18 @@ for hero in hero_data:
     total = len(hero_matches)
     b_count = 0
     p_count = 0
+    b_list = [0,0,0,0,0]
+    p_list = [0,0,0,0,0]
 
     for match in hero_matches:
         if match['status'] == 'ban':
             b_count = b_count + 1
+            b_list[match['index']] = b_list[match['index']] + 1
         else:
             p_count = p_count + 1
+            p_list[match['index']] = p_list[match['index']] + 1
 
-    item = [hero_name,total,b_count,p_count]
+    item = [hero_name,total,b_count,p_count,b_list[0],b_list[1],b_list[2],b_list[3],b_list[4],p_list[0],p_list[1],p_list[2],p_list[3],p_list[4]]
     self_total.append(item)
 
 oppo_total = []
@@ -170,14 +174,18 @@ for hero in oppo_hero_data:
     total = len(hero_matches)
     b_count = 0
     p_count = 0
+    b_list = [0,0,0,0,0]
+    p_list = [0,0,0,0,0]
 
     for match in hero_matches:
         if match['status'] == 'ban':
             b_count = b_count + 1
+            b_list[match['index']] = b_list[match['index']] + 1
         else:
             p_count = p_count + 1
+            p_list[match['index']] = p_list[match['index']] + 1
 
-    item = [hero_name,total,b_count,p_count]
+    item = [hero_name,total,b_count,p_count,b_list[0],b_list[1],b_list[2],b_list[3],b_list[4],p_list[0],p_list[1],p_list[2],p_list[3],p_list[4]]
     oppo_total.append(item)
 
 
