@@ -12,3 +12,8 @@ p1_hero = []
 p2_hero = []
 p3_hero = []
 p4p5_hero = []
+used_hero = []
+oppo_used_hero = []
+
+#bp
+general_bp = []

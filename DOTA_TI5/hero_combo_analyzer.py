@@ -7,32 +7,37 @@ import variable_chart
 team_name =variable_chart.team_name
 folder_name = variable_chart.folder_name
 
-input_bpfile_string = folder_name+team_name+'/'+team_name+'_combo_data.csv'
-input_herofile_string = 'C:/Users/DafashiTuzi/Desktop/vp hero.csv'
+#input_bpfile_string = folder_name+team_name+'/'+team_name+'_combo_data.csv'
+#input_herofile_string = 'C:/Users/DafashiTuzi/Desktop/vp hero.csv'
 output2_file_string = folder_name+team_name+'/'+team_name+'_combo_output_2.cvs'
 output3_file_string = folder_name+team_name+'/'+team_name+'_combo_output_3.cvs'
 
 print("Reading in CSV...")
 #read in BP data
-import csv 
+###########################################################################
+#import csv 
 
-data_reader = None
+#data_reader = None
 bp_data = [];
-with open(input_file_string, newline='') as csvFile:
-	data_reader = csv.reader(csvFile,delimiter=' ', quotechar='|')
-	for row in data_reader:
-		#print(row)	
-		#heros = row[0][0].split(',')
-		bp_data.append(row)
+#with open(input_file_string, newline='') as csvFile:
+#	data_reader = csv.reader(csvFile,delimiter=' ', quotechar='|')
+#	for row in data_reader:
+#		#print(row)	
+#		#heros = row[0][0].split(',')
+#		bp_data.append(row)
+for row in variable_chart.general_bp:
+    bp_data.append(row['self_p'])
+
 
 #read in hero set
-hero_reader = None
-hero_data = []
-with open(input_herofile_string, newline='') as csvFile:
-	hero_reader = csv.reader(csvFile,delimiter=' ',quotechar='|')
-	for row in hero_reader:
-		#print(row)
-		hero_data.append(row)
+###########################################################################
+#hero_reader = None
+#with open(input_herofile_string, newline='') as csvFile:
+#	hero_reader = csv.reader(csvFile,delimiter=' ',quotechar='|')
+#	for row in hero_reader:
+#		#print(row)
+#		hero_data.append(row)
+hero_data = variable_chart.used_hero
 
 #make better format for bp_data and hero_data_split
 bp_data_split = [];

@@ -15,6 +15,7 @@ used_hero = []
 oppo_used_hero = []
 hero_data = {}
 oppo_hero_data = {}
+general_output = []
 
 #functions
 #func export csv
@@ -57,7 +58,7 @@ with open(input_generalBP_string, newline='') as csvFile:
 			host_pick_index = [9,10,16,18,22]
 			guest_ban_index = [4,6,12,14,21]
 
-		#À¢—¿ ±º‰£°
+		#Teeth Brushing Time??
 
 		for i in range(4,24):
 			
@@ -80,9 +81,7 @@ with open(input_generalBP_string, newline='') as csvFile:
 
 		general_bp_data.append(bp_dict)
 
-
-#for row in general_bp_data:
-#    print(row)
+variable_chart.general_bp = general_bp_data
 
 #init hero_data
 for row in used_hero:
@@ -193,6 +192,34 @@ for hero in oppo_hero_data:
 exportFunc('_self_total', self_total)
 exportFunc('_oppo_total', oppo_total)
 
-#export 
+# calculate win rate in sides
+rad_match_count = 0
+dire_match_count = 0
+rad_win = 0
+dire_win = 0
+for row in general_bp_data:
+    side = row['side']
+    result = row['result']
+    
+    if side == 'RAD':
+    	rad_match_count = rad_match_count + 1
+    	if result == 'WIN':
+	        rad_win = rad_win + 1
+    else:
+        dire_match_count = dire_match_count + 1
+        if result == 'WIN':
+        	dire_win = dire_win + 1
+rad_win_percentage = rad_win/rad_match_count
+dire_win_percentage = dire_win/dire_match_count
+output_list = ['Radiante Win Rate Percentage', rad_win_percentage,'Dire Win Rate Percentage', dire_win_percentage]
+general_output.append(output_list)
+
+#generate files for combo analyzer
+
+
+#general result generate and export
+exportFunc('_general', general_output)
+
+
 
 print("###End of General Handler###")
