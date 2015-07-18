@@ -9,13 +9,13 @@ folder_name = variable_chart.folder_name
 
 #input_bpfile_string = folder_name+team_name+'/'+team_name+'_combo_data.csv'
 #input_herofile_string = 'C:/Users/DafashiTuzi/Desktop/vp hero.csv'
-output2_file_string = folder_name+team_name+'/'+team_name+'_combo_output_2.cvs'
-output3_file_string = folder_name+team_name+'/'+team_name+'_combo_output_3.cvs'
+output2_file_string = folder_name+team_name+'/'+team_name+'_combo_output_2.csv'
+output3_file_string = folder_name+team_name+'/'+team_name+'_combo_output_3.csv'
 
 print("Reading in CSV...")
 #read in BP data
 ###########################################################################
-#import csv 
+import csv 
 
 #data_reader = None
 bp_data = [];
@@ -40,25 +40,25 @@ for row in variable_chart.general_bp:
 hero_data = variable_chart.used_hero
 
 #make better format for bp_data and hero_data_split
-bp_data_split = [];
-for data in bp_data:
-	heros = data[0].split(',')
-	bp_data_split.append(heros)
+bp_data_split = bp_data;
+#for data in bp_data:
+#	heros = data[0].split(',')
+#	bp_data_split.append(heros)
 
 #for row in bp_data_split:
 #	print(row)
 
-hero_data_split = []
-for data in hero_data:
-	hero = data[0].split(',')
-	hero_data_split.append(hero)
+hero_data_split = hero_data
+#for data in hero_data:
+#	hero = data[0].split(',')
+#	hero_data_split.append(hero)
 
 #analyze start
 n = 0 #hero counter
 o_pool = [] #output pool
-for hero in hero_data_split[0]:
+for hero in hero_data_split:
 	
-	if (n+1) < len(hero_data_split[0]):
+	if (n+1) < len(hero_data_split):
 		n=n+1
 		i=0
 		a_pool = []
@@ -76,8 +76,8 @@ for hero in hero_data_split[0]:
 	
 		#part 2
 		#print("start p2...")
-		for j in range(n,len(hero_data_split[0])):
-			hero2 = hero_data_split[0][j]
+		for j in range(n,len(hero_data_split)):
+			hero2 = hero_data_split[j]
 			b_pool = []
 			for bp in a_pool:	
 				if hero2 in bp:
@@ -104,9 +104,9 @@ def analyze3():
 	#analyze start
 	n = 0 #hero counter
 	o_pool = [] #output pool
-	for hero in hero_data_split[0]:
+	for hero in hero_data_split:
 	
-		if (n+2) < len(hero_data_split[0]):
+		if (n+2) < len(hero_data_split):
 			n=n+1
 			i=0
 			a_pool = []
@@ -124,7 +124,7 @@ def analyze3():
 	
 			#part 2
 			#print("start p2...")
-			for j in range(n,len(hero_data_split[0])):
+			for j in range(n,len(hero_data_split)):
 				hero2 = hero_data_split[0][j]
 				b_pool = []
 				for bp in a_pool:	
@@ -132,7 +132,7 @@ def analyze3():
 						#print("found one!")
 						b_pool.append(bp)
 
-			for k in range(n+1,len(hero_data_split[0])):
+			for k in range(n+1,len(hero_data_split)):
 				hero3 = hero_data_split[0][k]
 				c_pool = []
 				for bp in b_pool:
@@ -156,6 +156,6 @@ def analyze3():
 	
 	return
 
-analyze3()
+#analyze3()
 
 print("###End Hero Combo Analyzer###")

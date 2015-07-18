@@ -20,10 +20,10 @@ general_output = []
 #functions
 #func export csv
 def exportFunc(detail, data_source):
-    with open((ouput_file_string+detail+'.csv'), 'w', newline='') as f:
-        writer = csv.writer(f)
-        for row in data_source:
-            writer.writerow(row)
+	with open((ouput_file_string+detail+'.csv'), 'w', newline='') as f:
+		writer = csv.writer(f)
+		for row in data_source:
+			writer.writerow(row)
 
 #read csv
 print("Reading in CSV...")
@@ -34,10 +34,14 @@ data_reader = None
 with open(input_generalBP_string, newline='') as csvFile:
 	data_reader = csv.reader(csvFile,delimiter=' ', quotechar='|')
 
+	#ii=0
 	for row in data_reader:
+		#ii=ii+1
+		#print(ii)
 		bp_dict = {}
 		#print(row)
 		items = row[0].split(',')
+		#print(items)
 
 		bp_dict['fp'] = items[0]
 		bp_dict['oppo'] = items[1]
@@ -61,7 +65,7 @@ with open(input_generalBP_string, newline='') as csvFile:
 		#Teeth Brushing Time??
 
 		for i in range(4,24):
-			
+
 			if i in host_ban_index:
 				bp_dict['self_b'].append(items[i])
 				if (items[i] not in used_hero):
@@ -82,6 +86,7 @@ with open(input_generalBP_string, newline='') as csvFile:
 		general_bp_data.append(bp_dict)
 
 variable_chart.general_bp = general_bp_data
+variable_chart.used_hero = used_hero
 
 #init hero_data
 for row in used_hero:
@@ -145,47 +150,49 @@ for hero in oppo_used_hero:
 #generating self_total and oppo_total
 self_total = []
 for hero in hero_data:
-    hero_name = hero
-    hero_matches = hero_data[hero]['matches']
+	hero_name = hero
+	hero_matches = hero_data[hero]['matches']
 
-    total = len(hero_matches)
-    b_count = 0
-    p_count = 0
-    b_list = [0,0,0,0,0]
-    p_list = [0,0,0,0,0]
+	total = len(hero_matches)
+	b_count = 0
+	p_count = 0
+	b_list = [0,0,0,0,0]
+	p_list = [0,0,0,0,0]
 
-    for match in hero_matches:
-        if match['status'] == 'ban':
-            b_count = b_count + 1
-            b_list[match['index']] = b_list[match['index']] + 1
-        else:
-            p_count = p_count + 1
-            p_list[match['index']] = p_list[match['index']] + 1
+	for match in hero_matches:
+		if match['status'] == 'ban':
+			b_count = b_count + 1
+			b_list[match['index']] = b_list[match['index']] + 1
+		else:
+			p_count = p_count + 1
+			p_list[match['index']] = p_list[match['index']] + 1
 
-    item = [hero_name,total,b_count,p_count,b_list[0],b_list[1],b_list[2],b_list[3],b_list[4],p_list[0],p_list[1],p_list[2],p_list[3],p_list[4]]
-    self_total.append(item)
+	item = [hero_name,total,b_count,p_count,b_list[0],b_list[1],b_list[2],b_list[3],b_list[4],p_list[0],p_list[1],p_list[2],p_list[3],p_list[4]]
+
+		
+	self_total.append(item)
 
 oppo_total = []
 for hero in oppo_hero_data:
-    hero_name = hero
-    hero_matches = oppo_hero_data[hero]['matches']
+	hero_name = hero
+	hero_matches = oppo_hero_data[hero]['matches']
 
-    total = len(hero_matches)
-    b_count = 0
-    p_count = 0
-    b_list = [0,0,0,0,0]
-    p_list = [0,0,0,0,0]
+	total = len(hero_matches)
+	b_count = 0
+	p_count = 0
+	b_list = [0,0,0,0,0]
+	p_list = [0,0,0,0,0]
 
-    for match in hero_matches:
-        if match['status'] == 'ban':
-            b_count = b_count + 1
-            b_list[match['index']] = b_list[match['index']] + 1
-        else:
-            p_count = p_count + 1
-            p_list[match['index']] = p_list[match['index']] + 1
+	for match in hero_matches:
+		if match['status'] == 'ban':
+			b_count = b_count + 1
+			b_list[match['index']] = b_list[match['index']] + 1
+		else:
+			p_count = p_count + 1
+			p_list[match['index']] = p_list[match['index']] + 1
 
-    item = [hero_name,total,b_count,p_count,b_list[0],b_list[1],b_list[2],b_list[3],b_list[4],p_list[0],p_list[1],p_list[2],p_list[3],p_list[4]]
-    oppo_total.append(item)
+	item = [hero_name,total,b_count,p_count,b_list[0],b_list[1],b_list[2],b_list[3],b_list[4],p_list[0],p_list[1],p_list[2],p_list[3],p_list[4]]
+	oppo_total.append(item)
 
 
 #export self_total & oppo_total
@@ -198,17 +205,17 @@ dire_match_count = 0
 rad_win = 0
 dire_win = 0
 for row in general_bp_data:
-    side = row['side']
-    result = row['result']
-    
-    if side == 'RAD':
-    	rad_match_count = rad_match_count + 1
-    	if result == 'WIN':
-	        rad_win = rad_win + 1
-    else:
-        dire_match_count = dire_match_count + 1
-        if result == 'WIN':
-        	dire_win = dire_win + 1
+	side = row['side']
+	result = row['result']
+	
+	if side == 'RAD':
+		rad_match_count = rad_match_count + 1
+		if result == 'WIN':
+			rad_win = rad_win + 1
+	else:
+		dire_match_count = dire_match_count + 1
+		if result == 'WIN':
+			dire_win = dire_win + 1
 rad_win_percentage = rad_win/rad_match_count
 dire_win_percentage = dire_win/dire_match_count
 output_list = ['Radiante Win Rate Percentage', rad_win_percentage,'Dire Win Rate Percentage', dire_win_percentage]
