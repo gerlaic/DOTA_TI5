@@ -25,6 +25,10 @@ def exportFunc(detail, data_source):
 		for row in data_source:
 			writer.writerow(row)
 
+#func add header for csv
+def addHeader(header, csvdata):
+    csvdata.insert(0,header)
+
 #read csv
 print("Reading in CSV...")
 import csv 
@@ -105,7 +109,7 @@ for row in oppo_used_hero:
 for hero in used_hero:
 	for row in general_bp_data:
 		#init match for hero_data
-		hero_data_match = {'status':'', 'index':0, 'result':'', 'oppo':0}
+		hero_data_match = {'status':'', 'index':0, 'result':'', 'oppo':0, 'fp':''}
 
 		if (hero in row['self_b']) or (hero in row['self_p']):
 			if hero in row['self_b']:
@@ -121,6 +125,8 @@ for hero in used_hero:
 				hero_data_match['oppo'] = 'T1'
 			else:
 				hero_data_match['oppo'] = 'T2'
+
+			hero_data_match['fp'] = row['fp']
 
 			hero_data[hero]['matches'].append(hero_data_match)
 
@@ -145,6 +151,8 @@ for hero in oppo_used_hero:
 			else:
 				hero_data_match['oppo'] = 'T2'
 
+			hero_data_match['fp'] = row['fp']
+
 			oppo_hero_data[hero]['matches'].append(hero_data_match)
 
 #generating self_total and oppo_total
@@ -156,18 +164,24 @@ for hero in hero_data:
 	total = len(hero_matches)
 	b_count = 0
 	p_count = 0
-	b_list = [0,0,0,0,0]
-	p_list = [0,0,0,0,0]
+	b_list = [0,0,0,0,0,0,0,0,0,0]
+	p_list = [0,0,0,0,0,0,0,0,0,0]
 
 	for match in hero_matches:
 		if match['status'] == 'ban':
 			b_count = b_count + 1
-			b_list[match['index']] = b_list[match['index']] + 1
+			if match['fp'] == 'YES':
+				b_list[match['index']] = b_list[match['index']] + 1
+			else:
+				b_list[match['index']+5] = b_list[match['index']] + 1
 		else:
 			p_count = p_count + 1
-			p_list[match['index']] = p_list[match['index']] + 1
+			if match['fp'] == 'YES':
+				p_list[match['index']] = p_list[match['index']] + 1
+			else:
+				p_list[match['index']+5] = p_list[match['index']] + 1
 
-	item = [hero_name,total,b_count,p_count,b_list[0],b_list[1],b_list[2],b_list[3],b_list[4],p_list[0],p_list[1],p_list[2],p_list[3],p_list[4]]
+	item = [hero_name,total,b_count,p_count,b_list[0],b_list[1],b_list[2],b_list[3],b_list[4],b_list[5],b_list[6],b_list[7],b_list[8],b_list[9],p_list[0],p_list[1],p_list[2],p_list[3],p_list[4],p_list[5],p_list[6],p_list[7],p_list[8],p_list[9]]
 
 		
 	self_total.append(item)
@@ -180,20 +194,30 @@ for hero in oppo_hero_data:
 	total = len(hero_matches)
 	b_count = 0
 	p_count = 0
-	b_list = [0,0,0,0,0]
-	p_list = [0,0,0,0,0]
+	b_list = [0,0,0,0,0,0,0,0,0,0]
+	p_list = [0,0,0,0,0,0,0,0,0,0]
 
 	for match in hero_matches:
 		if match['status'] == 'ban':
 			b_count = b_count + 1
-			b_list[match['index']] = b_list[match['index']] + 1
+			if match['fp'] == 'YES':
+				b_list[match['index']] = b_list[match['index']] + 1
+			else:
+				b_list[match['index']+5] = b_list[match['index']] + 1
 		else:
 			p_count = p_count + 1
-			p_list[match['index']] = p_list[match['index']] + 1
+			if match['fp'] == 'YES':
+				p_list[match['index']] = p_list[match['index']] + 1
+			else:
+				p_list[match['index']+5] = p_list[match['index']] + 1
 
-	item = [hero_name,total,b_count,p_count,b_list[0],b_list[1],b_list[2],b_list[3],b_list[4],p_list[0],p_list[1],p_list[2],p_list[3],p_list[4]]
+	item = [hero_name,total,b_count,p_count,b_list[0],b_list[1],b_list[2],b_list[3],b_list[4],b_list[5],b_list[6],b_list[7],b_list[8],b_list[9],p_list[0],p_list[1],p_list[2],p_list[3],p_list[4],p_list[5],p_list[6],p_list[7],p_list[8],p_list[9]]
 	oppo_total.append(item)
 
+#header for self total and oppo total
+header = ['hero_name', 'total', 'b_count', 'p_count', 'first ban 1', 'first ban 2', 'first ban 3', 'first ban 4', 'first ban 5', 'follow ban 1', 'follow ban 2', 'follow ban 3', 'follow ban 4', 'follow ban 5', 'first pick 1', 'first pick 2', 'first pick 3', 'first pick 4', 'first pick 5', 'follow pick 1', 'follow pick 2', 'follow pick 3', 'follow pick 4', 'follow pick 5']
+addHeader(header, self_total)
+addHeader(header, oppo_total)
 
 #export self_total & oppo_total
 exportFunc('_self_total', self_total)
@@ -221,7 +245,8 @@ dire_win_percentage = dire_win/dire_match_count
 output_list = ['Radiante Win Rate Percentage', rad_win_percentage,'Dire Win Rate Percentage', dire_win_percentage]
 general_output.append(output_list)
 
-#generate files for combo analyzer
+#150724 first bp or not filter
+
 
 
 #general result generate and export
