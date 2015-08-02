@@ -1,6 +1,6 @@
 #INPUT PARAMETERS
 #############################################################
-team_name ='phoenix'
+team_name ='c9'
 folder_name = 'C:/Users/DafashiTuzi/Desktop/TI5/'
 
 #############################################################

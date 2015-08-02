@@ -6,7 +6,7 @@ import variable_chart
 team_name =variable_chart.team_name
 folder_name = variable_chart.folder_name
 
-input_generalBP_string = folder_name+team_name+'/'+team_name+'_data.csv'
+input_generalBP_string = folder_name+team_name+'/'+team_name+'_data_ti.csv'
 ouput_file_string = folder_name + team_name +'/'+team_name+'_output'
 
 #global variable
@@ -27,7 +27,7 @@ def exportFunc(detail, data_source):
 
 #func add header for csv
 def addHeader(header, csvdata):
-    csvdata.insert(0,header)
+	csvdata.insert(0,header)
 
 #read csv
 print("Reading in CSV...")
@@ -173,13 +173,13 @@ for hero in hero_data:
 			if match['fp'] == 'YES':
 				b_list[match['index']] = b_list[match['index']] + 1
 			else:
-				b_list[match['index']+5] = b_list[match['index']] + 1
+				b_list[match['index']+5] = b_list[match['index']+5] + 1
 		else:
 			p_count = p_count + 1
 			if match['fp'] == 'YES':
 				p_list[match['index']] = p_list[match['index']] + 1
 			else:
-				p_list[match['index']+5] = p_list[match['index']] + 1
+				p_list[match['index']+5] = p_list[match['index']+5] + 1
 
 	item = [hero_name,total,b_count,p_count,b_list[0],b_list[1],b_list[2],b_list[3],b_list[4],b_list[5],b_list[6],b_list[7],b_list[8],b_list[9],p_list[0],p_list[1],p_list[2],p_list[3],p_list[4],p_list[5],p_list[6],p_list[7],p_list[8],p_list[9]]
 
